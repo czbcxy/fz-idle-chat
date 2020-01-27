@@ -12,7 +12,7 @@ public abstract class AbstractApplicationContent {
     private static final Object lock = new Object();
     public static String host;
     public static int port;
-    private static final String application = "Application.properties";
+    private static final String application = "Application.yml";
     protected static final Properties config = new Properties();
 
     public void Init() {

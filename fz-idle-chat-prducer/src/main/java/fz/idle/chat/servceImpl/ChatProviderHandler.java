@@ -2,6 +2,7 @@ package fz.idle.chat.servceImpl;
 
 import fz.idle.chat.entry.MessageDetail;
 import fz.idle.chat.factorybuild.ControlCenter;
+import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import org.springframework.beans.BeansException;
@@ -21,12 +22,12 @@ public class ChatProviderHandler extends ChannelInboundHandlerAdapter implements
         //接收到客户端传过来的消息，
         //进行存储，发送给客户发送成功，同将消息推送给给另一个客户端。
 //        String execut = getInstance("send").execut(detail);
+        System.out.println("服务端接口到客户端的消息"+ctx.name());
         String execut = "successful";
         ctx.write(execut);
         ctx.flush();
         ctx.close();
     }
-
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {

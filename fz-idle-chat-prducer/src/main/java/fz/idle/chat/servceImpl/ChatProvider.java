@@ -26,7 +26,6 @@ public class ChatProvider extends AbstractApplicationContent {
     public ChatProvider() {
     }
 
-    @PostConstruct
     public void init() {
         Init();
         start();

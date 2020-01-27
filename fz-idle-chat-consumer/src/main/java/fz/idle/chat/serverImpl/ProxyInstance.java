@@ -29,15 +29,30 @@ public class ProxyInstance extends AbstractApplicationContent {
 
     //开始登录聊天
     public Object sendObj(MessageDetail metaData) {
-        ChatConsumerHandler handler = new ChatConsumerHandler();
-        transmit(metaData, handler);
-        return handler.getResponse();
-    }
-
-    private void transmit(MessageDetail metaData, final ChatConsumerHandler handler) {
         EventLoopGroup workGroup = null;
         try {
-            workGroup = new NioEventLoopGroup();
+            for (int i = 0; i < 10; i++) {
+                ChatConsumerHandler handler = new ChatConsumerHandler();
+                workGroup = new NioEventLoopGroup();
+                ChannelFuture future = transmit(workGroup, handler);
+                future.channel().writeAndFlush(metaData).sync();
+                future.channel().closeFuture().sync();
+                Object response = handler.getResponse();
+                System.out.println(response);
+            }
+        } catch (Exception e) {
+            log.error("consumer error {}", e.getCause().getMessage());
+            e.printStackTrace();
+        } finally {
+            if (workGroup != null) {
+                workGroup.shutdownGracefully();
+            }
+        }
+        return "SUCCESSFUL";
+    }
+
+    private ChannelFuture transmit(EventLoopGroup workGroup, final ChatConsumerHandler handler) {
+        try {
             Bootstrap bootstrap = new Bootstrap();
             bootstrap.group(workGroup).channel(NioSocketChannel.class).option(ChannelOption.TCP_NODELAY, true).handler(new ChannelInitializer<SocketChannel>() {
                 @Override
@@ -51,16 +66,12 @@ public class ProxyInstance extends AbstractApplicationContent {
                 }
             });
             ChannelFuture future = bootstrap.connect(host, port).sync();
-            future.channel().writeAndFlush(metaData).sync();
-            future.channel().closeFuture().sync();
+            return future;
         } catch (Exception e) {
             log.error("consumer error {}", e.getCause().getMessage());
             e.printStackTrace();
-        } finally {
-            if (workGroup != null) {
-                workGroup.shutdownGracefully();
-            }
         }
+        return null;
     }
 
 }
