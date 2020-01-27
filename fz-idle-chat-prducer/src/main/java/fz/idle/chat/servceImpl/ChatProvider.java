@@ -11,21 +11,23 @@ import io.netty.handler.codec.serialization.ClassResolvers;
 import io.netty.handler.codec.serialization.ObjectDecoder;
 import io.netty.handler.codec.serialization.ObjectEncoder;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
 
 /**
  * Hello world!
- *
  */
 @Slf4j
+@Component
 public class ChatProvider extends AbstractApplicationContent {
 
-    public ChatProvider(int port){
+    public ChatProvider() {
+    }
+
+    @PostConstruct
+    public void init() {
         providerInit();
-        if (port != 0) {
-            port = port;
-        } else {
-            port = Integer.parseInt(String.valueOf(config.getProperty("netty.server.port")));
-        }
     }
 
     public void start() {
