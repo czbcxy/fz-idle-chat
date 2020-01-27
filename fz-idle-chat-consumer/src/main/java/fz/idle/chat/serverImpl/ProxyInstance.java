@@ -1,5 +1,6 @@
 package fz.idle.chat.serverImpl;
 
+import fz.idle.chat.core.AbstractApplicationContent;
 import fz.idle.chat.entry.MessageDetail;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
@@ -12,36 +13,30 @@ import io.netty.handler.codec.serialization.ClassResolvers;
 import io.netty.handler.codec.serialization.ObjectDecoder;
 import io.netty.handler.codec.serialization.ObjectEncoder;
 import lombok.extern.slf4j.Slf4j;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+
 
 @Slf4j
-public class proxyInstance implements InvocationHandler {
-    private Class<?> clazz;
+@Component
+public class ProxyInstance extends AbstractApplicationContent {
 
-    public proxyInstance(Class<?> clazz) {
-        this.clazz = clazz;
+    @PostConstruct
+    private void init() {
+        super.Init();
     }
 
-    @Override
-    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        if (Object.class.equals(method.getDeclaringClass())) {
-            return method.invoke(clazz, args);
-        }
-        return rpcInvoker(proxy, method, args);
-    }
-
-    private Object rpcInvoker(Object proxy, Method method, Object[] args) {
-        MessageDetail metaData = new MessageDetail();
+    public Object sendObj(MessageDetail metaData) {
         metaData.setClientId("123");
         metaData.setDetail("message");
         metaData.setFriendId("456");
-        RpcConsumerHandler handler = new RpcConsumerHandler();
+        ChatConsumerHandler handler = new ChatConsumerHandler();
         transmit(metaData, handler);
         return handler.getResponse();
     }
 
-    private void transmit(MessageDetail metaData, final RpcConsumerHandler handler) {
+    private void transmit(MessageDetail metaData, final ChatConsumerHandler handler) {
         EventLoopGroup workGroup = null;
         try {
             workGroup = new NioEventLoopGroup();
@@ -57,8 +52,7 @@ public class proxyInstance implements InvocationHandler {
                     pip.addLast(handler);
                 }
             });
-            String[] split = getHost();
-            ChannelFuture future = bootstrap.connect(split[0], Integer.parseInt(split[1])).sync();
+            ChannelFuture future = bootstrap.connect(host, port).sync();
             future.channel().writeAndFlush(metaData).sync();
             future.channel().closeFuture().sync();
         } catch (Exception e) {
@@ -71,7 +65,4 @@ public class proxyInstance implements InvocationHandler {
         }
     }
 
-    private String[] getHost() {
-        return new String[]{"127.0.0.1","8080"};
-    }
 }

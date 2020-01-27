@@ -1,5 +1,6 @@
 package fz.idle.chat.servceImpl;
 
+import fz.idle.chat.core.AbstractApplicationContent;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -27,7 +28,7 @@ public class ChatProvider extends AbstractApplicationContent {
 
     @PostConstruct
     public void init() {
-        providerInit();
+        Init();
         start();
     }
 

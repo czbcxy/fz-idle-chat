@@ -20,7 +20,8 @@ public class ChatProviderHandler extends ChannelInboundHandlerAdapter implements
         MessageDetail detail = (MessageDetail)msg;
         //接收到客户端传过来的消息，
         //进行存储，发送给客户发送成功，同将消息推送给给另一个客户端。
-        String execut = getInstance("send").execut(detail);
+//        String execut = getInstance("send").execut(detail);
+        String execut = "successful";
         ctx.write(execut);
         ctx.flush();
         ctx.close();

@@ -19,7 +19,7 @@
     <name>fz-idle-chat</name>
 
     <modules>
-        <module>fz-idle-chat-api</module>
+        <module>fz-idle-chat-common</module>
         <module>fz-idle-chat-consumer</module>
         <module>fz-idle-chat-prducer</module>
     </modules>

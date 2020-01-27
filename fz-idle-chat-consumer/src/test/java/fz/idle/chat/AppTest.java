@@ -1,6 +1,4 @@
-package fz.idle.chat
-
--idle-chat;
+package fz.idle.chat;
 
 import static org.junit.Assert.assertTrue;
 

@@ -3,7 +3,7 @@ package fz.idle.chat.serverImpl;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
-public class RpcConsumerHandler extends ChannelInboundHandlerAdapter {
+public class ChatConsumerHandler extends ChannelInboundHandlerAdapter {
 
     private Object response;
 

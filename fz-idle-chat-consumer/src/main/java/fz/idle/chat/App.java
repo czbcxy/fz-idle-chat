@@ -1,12 +1,11 @@
 package fz.idle.chat;
 
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-public class App implements ApplicationContextAware {
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-
+@SpringBootApplication
+public class App  {
+    public static void main( String[] args ) {
+        SpringApplication.run(App.class, args);
     }
 }
