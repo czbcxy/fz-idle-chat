@@ -1,4 +1,4 @@
-package fz-idle-chat;
+package fz.idle.chat-idle-chat;
 
 /**
  * Hello world!
