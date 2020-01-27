@@ -19,7 +19,11 @@ public class ChatConsumer {
 
     @GetMapping("send")
     public String send() {
-        System.out.println(proxyInstance.sendObj(new MessageDetail()));
+        MessageDetail metaData = new MessageDetail();
+        metaData.setClientId("123");
+        metaData.setDetail("message");
+        metaData.setFriendId("456");
+        System.out.println(proxyInstance.sendObj(metaData));
         return null;
     }
 }

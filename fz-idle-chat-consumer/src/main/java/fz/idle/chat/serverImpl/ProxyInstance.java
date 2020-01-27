@@ -27,10 +27,8 @@ public class ProxyInstance extends AbstractApplicationContent {
         super.Init();
     }
 
+    //开始登录聊天
     public Object sendObj(MessageDetail metaData) {
-        metaData.setClientId("123");
-        metaData.setDetail("message");
-        metaData.setFriendId("456");
         ChatConsumerHandler handler = new ChatConsumerHandler();
         transmit(metaData, handler);
         return handler.getResponse();
