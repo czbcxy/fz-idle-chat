@@ -1,6 +1,5 @@
 package fz.idle.chat;
 
-import fz.idle.chat.servceImpl.ChatProvider;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

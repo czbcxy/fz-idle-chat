@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 import java.util.Properties;
 
 @Slf4j
@@ -24,6 +25,8 @@ public abstract class AbstractApplicationContent {
         try {
             io = this.getClass().getClassLoader().getResourceAsStream(application);
             config.load(io);
+            String portStr = config.getProperty("netty.server.port");
+            port = Objects.isNull(portStr) ? 0 : Integer.parseInt(portStr);
         } catch (Exception e) {
             log.error("cofig init error : {}", e.getCause().getMessage());
         } finally {
