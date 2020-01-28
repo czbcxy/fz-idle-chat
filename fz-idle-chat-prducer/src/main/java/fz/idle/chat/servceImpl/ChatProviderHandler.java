@@ -1,20 +1,11 @@
 package fz.idle.chat.servceImpl;
 
 import fz.idle.chat.entry.MessageDetail;
-import fz.idle.chat.factorybuild.ControlCenter;
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+public class ChatProviderHandler extends ChannelInboundHandlerAdapter{
 
-public class ChatProviderHandler extends ChannelInboundHandlerAdapter implements ApplicationContextAware {
-    private static final Map<String, ControlCenter> beansOfType = new HashMap<>();
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
@@ -35,16 +26,5 @@ public class ChatProviderHandler extends ChannelInboundHandlerAdapter implements
     }
 
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        beansOfType.putAll(applicationContext.getBeansOfType(ControlCenter.class));
-    }
 
-    public ControlCenter getInstance(String task) {
-        if (Objects.isNull(task)) {
-            return null;
-        }
-        ControlCenter center = beansOfType.get(task.concat(ControlCenter.class.getSimpleName()));
-        return Objects.isNull(center) ? null : center;
-    }
 }

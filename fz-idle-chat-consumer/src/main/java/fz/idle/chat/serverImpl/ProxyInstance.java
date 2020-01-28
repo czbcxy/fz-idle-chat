@@ -22,24 +22,17 @@ import javax.annotation.PostConstruct;
 @Component
 public class ProxyInstance extends AbstractApplicationContent {
 
-    @PostConstruct
-    private void init() {
-        super.Init();
-    }
-
     //开始登录聊天
     public Object sendObj(MessageDetail metaData) {
         EventLoopGroup workGroup = null;
         try {
-            for (int i = 0; i < 10; i++) {
-                ChatConsumerHandler handler = new ChatConsumerHandler();
-                workGroup = new NioEventLoopGroup();
-                ChannelFuture future = transmit(workGroup, handler);
-                future.channel().writeAndFlush(metaData).sync();
-                future.channel().closeFuture().sync();
-                Object response = handler.getResponse();
-                System.out.println(response);
-            }
+            ChatConsumerHandler handler = new ChatConsumerHandler();
+            workGroup = new NioEventLoopGroup();
+            ChannelFuture future = transmit(workGroup, handler);
+            future.channel().writeAndFlush(metaData).sync();
+            future.channel().closeFuture().sync();
+            Object response = handler.getResponse();
+            System.out.println(response);
         } catch (Exception e) {
             log.error("consumer error {}", e.getCause().getMessage());
             e.printStackTrace();
