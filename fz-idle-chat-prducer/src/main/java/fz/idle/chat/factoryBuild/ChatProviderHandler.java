@@ -1,4 +1,4 @@
-package fz.idle.chat.servceImpl;
+package fz.idle.chat.factoryBuild;
 
 import fz.idle.chat.factoryBuild.ActionFactoryBuild;
 import fz.idle.chat.msg.param.LogParam;
@@ -14,7 +14,7 @@ public class ChatProviderHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         ClientService user = ActionFactoryBuild.getInstance(ClientService.class.getSimpleName());
-        LogParam param = new LogParam();
+        LogParam param = (LogParam) msg;
         ResponseResult<ClientAllVo> login = user.login(param);
         System.out.println("服务端接口到客户端的消息" + ctx.name());
         String execut = "successful";

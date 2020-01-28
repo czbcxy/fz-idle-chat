@@ -1,4 +1,4 @@
-package fz.idle.chat.servceImpl;
+package fz.idle.chat.factoryBuild;
 
 import fz.idle.chat.core.AbstractApplicationContent;
 import io.netty.bootstrap.ServerBootstrap;
@@ -13,8 +13,6 @@ import io.netty.handler.codec.serialization.ObjectDecoder;
 import io.netty.handler.codec.serialization.ObjectEncoder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
 
 /**
  * Hello world!
