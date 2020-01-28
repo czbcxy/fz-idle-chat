@@ -1,3 +1,5 @@
+netty.server.port: 8080
+
 server:
   port: 8087
 
@@ -8,13 +10,11 @@ spring:
     url: jdbc:mysql://132.232.69.133:3306/message?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC&useSSL=false
     driver-class-name: com.mysql.jdbc.Driver
 #  main:
-#    allow-bean-definition-overriding: true #当遇到同样名字的时候，是否允许覆盖注册
+#    allow-bean-definition-overriding: true #\u5F53\u9047\u5230\u540C\u6837\u540D\u5B57\u7684\u65F6\u5019\uFF0C\u662F\u5426\u5141\u8BB8\u8986\u76D6\u6CE8\u518C
 
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
-#  type-aliases-package: com.example.entity
-
-
+#  type-aliases-package: fz.idle.chat.Do
 #showSql
 logging:
   level:

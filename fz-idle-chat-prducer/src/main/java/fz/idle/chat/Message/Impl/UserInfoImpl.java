@@ -9,12 +9,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserInfoImpl implements UserInfo {
 
-    @Autowired
-    MessageMapper messageMapper;
+//    @Autowired
+//    MessageMapper messageMapper;
 
     @Override
     public UserInfoDo findUserInfo(String clientId) {
-        UserInfoDo message = messageMapper.findMessage(clientId);
-        return message;
+//        UserInfoDo message = messageMapper.findMessage(clientId);
+//        return message;
+        return null;
     }
 }
