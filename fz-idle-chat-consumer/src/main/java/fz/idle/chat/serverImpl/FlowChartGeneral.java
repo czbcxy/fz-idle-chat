@@ -1,41 +1,20 @@
 package fz.idle.chat.serverImpl;
 
+import fz.idle.chat.entry.MetaData;
+import fz.idle.chat.enums.Types;
+import io.netty.channel.ChannelHandlerContext;
 import org.springframework.stereotype.Component;
 
 @Component
 public class FlowChartGeneral {
-
-    /**
-     *         //判断是否登录成功，
-     *         if (false) {
-     * //            失败返回
-     *             System.out.println("登录失败。。。");
-     *         }
-     *         System.out.println("登录成功。。。");
-     *
-     *         //查询用户好友列表
-     * //        todo
-     *         //成功就循环进行对话
-     *         while (true) {
-     *             System.out.println(response.toString());
-     *         }
-     */
-    public void refresh() {
-//        login();
-//        queryFriend();
-        chat();
-    }
-//
-//    public void login() {
-//
-//    }
-//
-//    public void queryFriend() {
-//
-//    }
-
     //循环聊天
-    public void chat() {
-
+    public void doChat(ChannelHandlerContext ctx) {
+        for (int i = 0; i < 10; i++) {
+            MetaData metaData = new MetaData();
+            metaData.setType(Types.chat.name());
+            metaData.setDate("来子客户端的消息");
+            ctx.write(metaData);
+            ctx.flush();
+        }
     }
 }

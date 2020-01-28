@@ -1,10 +1,10 @@
 package fz.idle.chat.serverImpl;
 
+import fz.idle.chat.core.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,8 +17,9 @@ public class ConsumerFactoryBuild implements ApplicationContextAware {
         beansOfType.putAll(applicationContext.getBeansOfType(FlowChartGeneral.class));
     }
 
-    public static FlowChartGeneral getFlowChart(){
-        return beansOfType.get(FlowChartGeneral.class.getSimpleName());
+    public static FlowChartGeneral getFlowChart() {
+        String simpleName = FlowChartGeneral.class.getSimpleName();
+        return beansOfType.get(StringUtils.changeFirstCharacterCase(simpleName, false));
     }
 
 

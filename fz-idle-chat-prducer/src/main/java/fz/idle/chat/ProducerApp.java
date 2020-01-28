@@ -10,9 +10,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @EnableSwagger2
 @SpringBootApplication
-public class App {
+public class ProducerApp {
     public static void main(String[] args) {
-        SpringApplication.run(App.class, args);
+        SpringApplication.run(ProducerApp.class, args);
         new ChatProvider().init();
     }
 }

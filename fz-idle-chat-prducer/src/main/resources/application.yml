@@ -16,8 +16,8 @@ mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
 #  type-aliases-package: fz.idle.chat.Do
 #showSql
-#logging:
-#  level:
-#    com:
-#      example:
-#        mapper : debug
+logging:
+  level:
+    com:
+      example:
+        mapper : debug

@@ -2,6 +2,8 @@ package fz.idle.chat.serverImpl;
 
 import fz.idle.chat.core.AbstractApplicationContent;
 import fz.idle.chat.entry.MessageDetail;
+import fz.idle.chat.entry.MetaData;
+import fz.idle.chat.param.LogParam;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -16,6 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 
 @Slf4j
@@ -23,16 +27,21 @@ import javax.annotation.PostConstruct;
 public class ProxyInstance extends AbstractApplicationContent {
 
     //开始登录聊天
-    public Object login(MessageDetail metaData) {
+    public Object login(MetaData metaData) {
         EventLoopGroup workGroup = null;
         try {
             ChatConsumerHandler handler = new ChatConsumerHandler();
             workGroup = new NioEventLoopGroup();
             ChannelFuture future = transmit(workGroup, handler);
+            assert future != null;
             future.channel().writeAndFlush(metaData).sync();
             future.channel().closeFuture().sync();
-            Object response = handler.getResponse();
-            System.out.println(response);
+            while (true) {
+                String poll = ChatConsumerHandler.queue.poll(100L, TimeUnit.NANOSECONDS);
+                if (Objects.nonNull(poll)) {
+                    System.out.println(poll);
+                }
+            }
         } catch (Exception e) {
             log.error("consumer error {}", e.getCause().getMessage());
             e.printStackTrace();
@@ -41,7 +50,7 @@ public class ProxyInstance extends AbstractApplicationContent {
                 workGroup.shutdownGracefully();
             }
         }
-        return "SUCCESSFUL";
+        return null;
     }
 
     private ChannelFuture transmit(EventLoopGroup workGroup, final ChatConsumerHandler handler) {
