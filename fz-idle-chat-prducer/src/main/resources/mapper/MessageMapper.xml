@@ -15,29 +15,30 @@
           `client` a,
           friend b
         WHERE b.`client_id` = '${param}'
+        and b.friend_id = a.client_id
     </select>
     <insert id="send" parameterType="fz.idle.chat.param.MsgParam">
         INSERT INTO `message`.`message` (
           `client_id`,
           `friend_id`,
-          `message_id`,
+          `message_id`
         )
         VALUES
           (
             '${param.clientId}',
             '${param.friendId}',
-            '${param.msgId}',
+            '${param.msgId}'
           )
     </insert>
     <insert id="sendMsg" parameterType="fz.idle.chat.param.MsgParam">
         INSERT INTO `message`.`detail` (
           `msg_id`,
-          `msg_detail`,
+          `msg_detail`
         )
         VALUES
           (
             '${param.msgId}',
-            '${param.detail}',
+            '${param.detail}'
           )
     </insert>
 </mapper>

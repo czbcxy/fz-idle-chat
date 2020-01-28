@@ -7,7 +7,7 @@ import fz.idle.chat.msg.vo.FriendsVo;
 import java.util.List;
 
 public interface MessageService {
-    ResponseResult<List<FriendsVo>> getFriends(String clientId);
+    ResponseResult getFriends(String clientId);
 
-    ResponseResult<String> send(MsgParam param);
+    ResponseResult send(MsgParam param);
 }

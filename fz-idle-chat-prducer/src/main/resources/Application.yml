@@ -18,6 +18,6 @@ mybatis:
 #showSql
 logging:
   level:
-    com:
-      example:
-        mapper : debug
+    fz.idle.chat:
+      msg:
+        mapper: debug

@@ -14,5 +14,5 @@ public interface MessageMapper {
 
     void send(@Param("param") MsgParam param);
 
-    String sendMsg(@Param("param") MsgParam param);
+    void sendMsg(@Param("param") MsgParam param);
 }

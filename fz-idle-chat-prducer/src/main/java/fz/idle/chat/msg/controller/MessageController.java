@@ -20,12 +20,12 @@ public class MessageController {
     private MessageServiceImpl service;
     @ApiOperation("获取用户好友列表")
     @PostMapping("getFriends")
-    public ResponseResult<List<FriendsVo>> getFriends(@ApiParam(value = "用户id",required = true)@RequestParam String clientId){
+    public ResponseResult getFriends(@ApiParam(value = "用户id",required = true)@RequestParam String clientId){
         return service.getFriends(clientId);
     }
     @ApiOperation("发送消息")
     @PostMapping("send")
-    public ResponseResult<String> send(@RequestBody MsgParam param){
+    public ResponseResult send(@RequestBody MsgParam param){
         return service.send(param);
     }
 

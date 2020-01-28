@@ -1,5 +1,6 @@
 package fz.idle.chat.msg.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import fz.idle.chat.msg.mapper.MessageMapper;
 import fz.idle.chat.param.MsgParam;
 import fz.idle.chat.msg.service.MessageService;
@@ -17,16 +18,19 @@ public class MessageServiceImpl implements MessageService {
     private MessageMapper mapper;
 
     @Override
-    public ResponseResult<List<FriendsVo>> getFriends(String clientId) {
-        ResponseResult<List<FriendsVo>> result = new ResponseResult<>();
+    public ResponseResult getFriends(String clientId) {
+        ResponseResult result = new ResponseResult();
         List<FriendsVo> friends = mapper.getFriend(clientId);
-        result.setData(friends);
+        result.setData(JSONObject.toJSONString(friends));
+        if (friends == null){
+            result.setMessage("没有查询到好友!");
+        }
         return result;
     }
 
     @Override
-    public ResponseResult<String> send(MsgParam param) {
-        ResponseResult<String> result = new ResponseResult<>();
+    public ResponseResult send(MsgParam param) {
+        ResponseResult result = new ResponseResult();
         try {
             String msgId = UUID.randomUUID().toString();
             param.setMsgId(msgId);
@@ -36,6 +40,7 @@ public class MessageServiceImpl implements MessageService {
         }catch (Exception e){
             result.setCode("1111");
             result.setMessage("消息发送失败,错误信息:" +e.getMessage());
+            e.printStackTrace();
         }
         return result;
     }

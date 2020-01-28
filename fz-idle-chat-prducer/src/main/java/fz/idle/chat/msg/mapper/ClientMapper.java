@@ -1,5 +1,6 @@
 package fz.idle.chat.msg.mapper;
 
+import fz.idle.chat.param.AddFriendParam;
 import fz.idle.chat.param.ClientAllParam;
 import fz.idle.chat.param.LogParam;
 import fz.idle.chat.msg.vo.ClientAllVo;
@@ -13,4 +14,8 @@ public interface ClientMapper {
     ClientAllVo login(@Param("param") LogParam param);
 
     void saveClient(@Param("param") ClientAllParam param);
+
+    void addFriend(@Param("param") AddFriendParam param);
+
+    ClientAllVo findFriend(@Param("param") String account);
 }

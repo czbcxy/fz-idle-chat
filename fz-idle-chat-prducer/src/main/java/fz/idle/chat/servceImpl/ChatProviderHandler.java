@@ -15,7 +15,7 @@ public class ChatProviderHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         ClientService user = ActionFactoryBuild.getInstance(ClientService.class.getSimpleName());
         LogParam param = new LogParam();
-        ResponseResult<ClientAllVo> login = user.login(param);
+        ResponseResult login = user.login(param);
         System.out.println("服务端接口到客户端的消息" + ctx.name());
         String execut = "successful";
         ctx.write(execut);
