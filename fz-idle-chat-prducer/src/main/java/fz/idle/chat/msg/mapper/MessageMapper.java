@@ -1,6 +1,6 @@
 package fz.idle.chat.msg.mapper;
 
-import fz.idle.chat.msg.param.MsgParam;
+import fz.idle.chat.param.MsgParam;
 import fz.idle.chat.msg.vo.FriendsVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

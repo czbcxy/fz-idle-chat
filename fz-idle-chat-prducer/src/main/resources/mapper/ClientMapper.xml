@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="fz.idle.chat.msg.mapper.ClientMapper">
-    <select id="login" parameterType="fz.idle.chat.msg.param.LogParam" resultType="fz.idle.chat.msg.vo.ClientAllVo">
+    <select id="login" parameterType="fz.idle.chat.param.LogParam" resultType="fz.idle.chat.msg.vo.ClientAllVo">
         SELECT
           client_id clientId,
           account,
@@ -14,7 +14,7 @@
         WHERE account = '${param.account}'
           AND `password` = '${param.password}'
     </select>
-    <insert id="saveClient" parameterType="fz.idle.chat.msg.param.ClientAllParam" >
+    <insert id="saveClient" parameterType="fz.idle.chat.param.ClientAllParam" >
         INSERT INTO `message`.`client` (
           `client_id`,
           `account`,
