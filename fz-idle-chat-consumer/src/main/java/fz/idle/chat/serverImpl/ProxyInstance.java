@@ -23,7 +23,7 @@ import javax.annotation.PostConstruct;
 public class ProxyInstance extends AbstractApplicationContent {
 
     //开始登录聊天
-    public Object sendObj(MessageDetail metaData) {
+    public Object login(MessageDetail metaData) {
         EventLoopGroup workGroup = null;
         try {
             ChatConsumerHandler handler = new ChatConsumerHandler();

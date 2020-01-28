@@ -1,4 +1,4 @@
-package fz.idle.chat.factorybuild;
+package fz.idle.chat.factoryBuild;
 
 import fz.idle.chat.Message.UserInfo;
 import org.springframework.beans.BeansException;
@@ -26,6 +26,5 @@ public class ActionFactoryBuild implements ApplicationContextAware {
         UserInfo center = beansOfType.get(String.format(task + "%s", "Impl"));
         return Objects.isNull(center) ? null : center;
     }
-
 
 }
