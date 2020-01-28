@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fz.idle.chat.msg.mapper.MessageMapper">
+    <resultMap id="friends" type="fz.idle.chat.msg.vo.ClientVo">
+        <result column="client_id" property="clientId"/>
+        <result column="nick_name" property="nickName"/>
+    </resultMap>
+    <select id="getFriend" parameterType="java.lang.String" resultMap="friends">
+        SELECT
+          a.nick_name,
+          b.friend_id client_id
+        FROM
+          `client` a,
+          friend b
+        WHERE b.`client_id` = '${param}'
+    </select>
+    <insert id="send" parameterType="fz.idle.chat.msg.param.MsgParam">
+        INSERT INTO `message`.`message` (
+          `client_id`,
+          `friend_id`,
+          `message_id`,
+        )
+        VALUES
+          (
+            '${param.clientId}',
+            '${param.friendId}',
+            '${param.msgId}',
+          )
+    </insert>
+    <insert id="sendMsg" parameterType="fz.idle.chat.msg.param.MsgParam">
+        INSERT INTO `message`.`detail` (
+          `msg_id`,
+          `msg_detail`,
+        )
+        VALUES
+          (
+            '${param.msgId}',
+            '${param.detail}',
+          )
+    </insert>
+</mapper>
