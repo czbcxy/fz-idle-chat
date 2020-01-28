@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <parent>
+    <parent>
+        <groupId>fz-idle-chat</groupId>
+        <artifactId>fz-idle-chat</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
     <groupId>fz-idle-chat</groupId>
-    <artifactId>fz-idle-chat</artifactId>
+    <artifactId>fz-idle-chat-consumer</artifactId>
     <version>1.0-SNAPSHOT</version>
-  </parent>
+    <name>fz-idle-chat-consumer</name>
 
-  <groupId>fz-idle-chat</groupId>
-  <artifactId>fz-idle-chat-consumer</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <name>fz-idle-chat-consumer</name>
-
-  <dependencies>
-    <dependency>
-      <groupId>fz-idle-chat</groupId>
-      <artifactId>fz-idle-chat-common</artifactId>
-      <version>1.0-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-web</artifactId>
-    </dependency>
-      <dependency>
-          <groupId>fz-idle-chat</groupId>
-          <artifactId>fz-idle-chat-prducer</artifactId>
-          <version>1.0-SNAPSHOT</version>
-          <scope>compile</scope>
-      </dependency>
-  </dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>fz-idle-chat</groupId>
+            <artifactId>fz-idle-chat-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>fz-idle-chat</groupId>
+            <artifactId>fz-idle-chat-prducer</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 
 </project>

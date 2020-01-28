@@ -23,7 +23,7 @@ public class ChatConsumer {
         metaData.setClientId("123");
         metaData.setDetail("message");
         metaData.setFriendId("456");
-        System.out.println(proxyInstance.sendObj(metaData));
+        System.out.println(proxyInstance.login(metaData));
         return null;
     }
 }
