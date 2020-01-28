@@ -1,12 +1,18 @@
 package fz.idle.chat.msg.mapper;
 
+import fz.idle.chat.msg.param.MsgParam;
 import fz.idle.chat.msg.vo.FriendsVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
 @Mapper
+@Repository
 public interface MessageMapper {
-    List<FriendsVo> getFriends(String clientId);
+    List<FriendsVo> getFriend(@Param("param") String clientId);
+
+    void send(@Param("param") MsgParam param);
+
+    String sendMsg(@Param("param") MsgParam param);
 }
