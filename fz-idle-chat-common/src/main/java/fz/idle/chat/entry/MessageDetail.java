@@ -8,6 +8,8 @@ import java.io.Serializable;
 public class MessageDetail implements Serializable {
     @ApiModelProperty(hidden = true)
     private static final long serialVersionUID = 6297604862067678805L;
+
+    private String action;
     @ApiModelProperty("用户id")
     private String clientId;
     @ApiModelProperty("好友id")

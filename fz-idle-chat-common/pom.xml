@@ -11,9 +11,9 @@
   </parent>
 
   <groupId>fz-idle-chat</groupId>
-  <artifactId>fz-idle-chat-api</artifactId>
+  <artifactId>fz-idle-chat-common</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>fz-idle-chat-api</name>
+  <name>fz-idle-chat-common</name>
 
   <dependencies>
     <dependency>
