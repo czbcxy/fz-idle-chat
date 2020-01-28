@@ -1,5 +1,6 @@
 package fz.idle.chat.msg.controller;
 
+import fz.idle.chat.param.FindMsgParam;
 import fz.idle.chat.param.MsgParam;
 import fz.idle.chat.msg.service.impl.MessageServiceImpl;
 import fz.idle.chat.msg.util.ResponseResult;
@@ -28,5 +29,12 @@ public class MessageController {
     public ResponseResult send(@RequestBody MsgParam param){
         return service.send(param);
     }
+
+    @ApiOperation("查询消息")
+    @PostMapping("findMsg")
+    public ResponseResult findMsg(@RequestBody FindMsgParam param){
+        return service.findMsg(param);
+    }
+
 
 }

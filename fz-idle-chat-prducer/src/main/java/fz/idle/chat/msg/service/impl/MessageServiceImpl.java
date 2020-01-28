@@ -2,6 +2,7 @@ package fz.idle.chat.msg.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import fz.idle.chat.msg.mapper.MessageMapper;
+import fz.idle.chat.param.FindMsgParam;
 import fz.idle.chat.param.MsgParam;
 import fz.idle.chat.msg.service.MessageService;
 import fz.idle.chat.msg.util.ResponseResult;
@@ -9,6 +10,7 @@ import fz.idle.chat.msg.vo.FriendsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -42,6 +44,22 @@ public class MessageServiceImpl implements MessageService {
             result.setMessage("消息发送失败,错误信息:" +e.getMessage());
             e.printStackTrace();
         }
+        return result;
+    }
+
+    @Override
+    public ResponseResult findMsg(FindMsgParam param) {
+        if (param.getPageSize() == null || param.getPageSize() < 1){
+            param.setPageSize(10);
+        }
+        if (param.getCurrentPage() == null || param.getCurrentPage() < 1){
+            param.setCurrentPage(0);
+        }else {
+            param.setCurrentPage(param.getCurrentPage() - 1);
+        }
+        ResponseResult result = new ResponseResult();
+        List<HashMap<String,String>> data = mapper.findMsg(param);
+        result.setData(JSONObject.toJSONString(data));
         return result;
     }
 }

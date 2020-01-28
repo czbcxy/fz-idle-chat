@@ -1,7 +1,7 @@
 netty.server.port: 8080
 
 server:
-  port: 8087
+  port: 8887
 
 spring:
   datasource:
@@ -16,8 +16,8 @@ mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
 #  type-aliases-package: fz.idle.chat.Do
 #showSql
-#logging:
-#  level:
-#    com:
-#      example:
-#        mapper : debug
+logging:
+  level:
+    fz.idle.chat:
+      msg:
+        mapper: debug
