@@ -2,6 +2,7 @@ package fz.idle.chat.core;
 
 import lombok.extern.slf4j.Slf4j;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
@@ -15,6 +16,7 @@ public abstract class AbstractApplicationContent {
     private static final String application = "Application.yml";
     protected static final Properties config = new Properties();
 
+    @PostConstruct
     public void Init() {
         synchronized (lock) {
             doLoadProperties();
