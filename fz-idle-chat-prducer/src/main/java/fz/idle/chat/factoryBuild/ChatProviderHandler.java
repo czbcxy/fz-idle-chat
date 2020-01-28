@@ -1,7 +1,7 @@
 package fz.idle.chat.factoryBuild;
 
 import fz.idle.chat.factoryBuild.ActionFactoryBuild;
-import fz.idle.chat.msg.param.LogParam;
+import fz.idle.chat.param.LogParam;
 import fz.idle.chat.msg.service.ClientService;
 import fz.idle.chat.msg.util.ResponseResult;
 import fz.idle.chat.msg.vo.ClientAllVo;

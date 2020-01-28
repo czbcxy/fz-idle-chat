@@ -1,4 +1,4 @@
-package fz.idle.chat.msg.param;
+package fz.idle.chat.param;
 
 import fz.idle.chat.entry.MessageDetail;
 import io.swagger.annotations.ApiModelProperty;

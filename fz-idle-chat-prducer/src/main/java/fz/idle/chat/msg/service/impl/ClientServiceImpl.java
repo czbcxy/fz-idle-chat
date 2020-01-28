@@ -1,8 +1,8 @@
 package fz.idle.chat.msg.service.impl;
 
 import fz.idle.chat.msg.mapper.ClientMapper;
-import fz.idle.chat.msg.param.ClientAllParam;
-import fz.idle.chat.msg.param.LogParam;
+import fz.idle.chat.param.ClientAllParam;
+import fz.idle.chat.param.LogParam;
 import fz.idle.chat.msg.service.ClientService;
 import fz.idle.chat.msg.util.ResponseResult;
 import fz.idle.chat.msg.vo.ClientAllVo;

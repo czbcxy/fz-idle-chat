@@ -1,6 +1,6 @@
 package fz.idle.chat.msg.controller;
 
-import fz.idle.chat.msg.param.MsgParam;
+import fz.idle.chat.param.MsgParam;
 import fz.idle.chat.msg.service.impl.MessageServiceImpl;
 import fz.idle.chat.msg.util.ResponseResult;
 import fz.idle.chat.msg.vo.FriendsVo;

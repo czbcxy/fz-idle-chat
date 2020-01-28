@@ -1,4 +1,4 @@
-package fz.idle.chat.msg.param;
+package fz.idle.chat.param;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
