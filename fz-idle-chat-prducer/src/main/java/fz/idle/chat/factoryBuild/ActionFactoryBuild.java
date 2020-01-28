@@ -1,6 +1,6 @@
 package fz.idle.chat.factoryBuild;
 
-import fz.idle.chat.Message.UserInfo;
+import fz.idle.chat.msg.service.ClientService;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -12,18 +12,18 @@ import java.util.Objects;
 
 @Component
 public class ActionFactoryBuild implements ApplicationContextAware {
-    private static final Map<String, UserInfo> beansOfType = new HashMap<>();
+    private static final Map<String, ClientService> beansOfType = new HashMap<>();
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        beansOfType.putAll(applicationContext.getBeansOfType(UserInfo.class));
+        beansOfType.putAll(applicationContext.getBeansOfType(ClientService.class));
     }
 
-    public static UserInfo getInstance(String task) {
+    public static ClientService getInstance(String task) {
         if (Objects.isNull(task)) {
             return null;
         }
-        UserInfo center = beansOfType.get(String.format(task + "%s", "Impl"));
+        ClientService center = beansOfType.get(String.format(task + "%s", "Impl"));
         return Objects.isNull(center) ? null : center;
     }
 
