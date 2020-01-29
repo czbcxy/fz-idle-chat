@@ -52,11 +52,10 @@ public class ChatConsumer {
         detail.setClientId("123");
         detail.setDetail("来子客户端的消息");
         detail.setFriendId("456");
-        String param = JSON.toJSONString(detail);
 
         MetaData metadata = new MetaData();
         metadata.setType(Types.chat.name());
-        metadata.setDate(param);
+        metadata.setDate(detail);
         flowChartGeneral.doChat(metadata);
         return "发送消息成功";
     }

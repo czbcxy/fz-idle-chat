@@ -63,10 +63,11 @@ public class FlowChartGeneral {
         if (Objects.isNull(ctx)) {
             return;
         }
-        Object date = msg.getDate();
-        System.out.println(date);
+        MessageDetail date = (MessageDetail)msg.getDate();
         MsgParam param = new MsgParam();
-        BeanUtils.copyProperties(date,param);
+        param.setClientId(date.getClientId());
+        param.setDetail(date.getDetail());
+        param.setFriendId(date.getFriendId());
         messageService.send(param);
         ctx.writeAndFlush("返回给客户消息。。。hello world。。。" + msg.toString());
     }
