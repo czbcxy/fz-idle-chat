@@ -13,7 +13,7 @@ public abstract class AbstractApplicationContent {
     private static final Object lock = new Object();
     public static String host;
     public static int port;
-    private static final String application = "Application.yml";
+    private static final String application = "application.yml";
     protected static final Properties config = new Properties();
 
     @PostConstruct

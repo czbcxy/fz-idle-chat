@@ -15,6 +15,7 @@ import io.netty.handler.codec.serialization.ClassResolvers;
 import io.netty.handler.codec.serialization.ObjectDecoder;
 import io.netty.handler.codec.serialization.ObjectEncoder;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -26,12 +27,14 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class ProxyInstance extends AbstractApplicationContent {
 
+    @Autowired
+    ChatConsumerHandler chatConsumerHandler;
+
     //开始登录聊天
     public void login(MetaData metaData) {
         try {
-            ChatConsumerHandler handler = new ChatConsumerHandler();
             EventLoopGroup workGroup = new NioEventLoopGroup();
-            ChannelFuture future = transmit(workGroup, handler);
+            ChannelFuture future = transmit(workGroup);
             assert future != null;
             future.channel().writeAndFlush(metaData).sync();
             future.channel().closeFuture().sync();
@@ -41,7 +44,7 @@ public class ProxyInstance extends AbstractApplicationContent {
         }
     }
 
-    private ChannelFuture transmit(EventLoopGroup workGroup, final ChatConsumerHandler handler) {
+    private ChannelFuture transmit(EventLoopGroup workGroup) {
         ChannelFuture future = null;
         try {
             Bootstrap bootstrap = new Bootstrap();
@@ -53,7 +56,7 @@ public class ProxyInstance extends AbstractApplicationContent {
                     pip.addLast(new LengthFieldPrepender(4));
                     pip.addLast("encoder", new ObjectEncoder());
                     pip.addLast("decoder", new ObjectDecoder(Integer.MAX_VALUE, ClassResolvers.cacheDisabled(this.getClass().getClassLoader())));
-                    pip.addLast(handler);
+                    pip.addLast(chatConsumerHandler);
                 }
             });
             future = bootstrap.connect(host, port).sync();

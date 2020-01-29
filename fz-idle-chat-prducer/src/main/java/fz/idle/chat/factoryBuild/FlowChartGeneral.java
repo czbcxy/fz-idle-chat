@@ -12,7 +12,7 @@ import fz.idle.chat.param.LogParam;
 import fz.idle.chat.param.MsgParam;
 import io.netty.channel.ChannelHandlerContext;
 import org.springframework.beans.BeanUtils;
-import org.springframework.cglib.beans.BeanCopier;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
@@ -20,22 +20,25 @@ import java.util.Objects;
 @Component
 public class FlowChartGeneral {
     private ChannelHandlerContext ctx;
-    private static MessageService messageService = null;
+
+    @Autowired
+    private ClientService clientService;
+    @Autowired
+    private MessageService messageService;
 
     public void refresh(ChannelHandlerContext ctx, Object msg) {
         this.ctx = ctx;
         String type = ((MetaData) msg).getType();
         if (Objects.equals(type, Types.login.name())) {
-            queryFriend(login((MetaData)msg));
+            queryFriend(login((MetaData) msg));
         } else {
             doChat((MetaData) msg);
         }
     }
 
     public ResponseResult login(MetaData msg) {
-        ClientService user = ActionFactoryBuild.getClient(ClientService.class.getSimpleName());
         LogParam param = (LogParam) msg.getDate();
-        ResponseResult login = user.login(param);
+        ResponseResult login = clientService.login(param);
         //登录成功
         if (Objects.isNull(login) || !Objects.equals(login.getCode(), "0000")) {
             ctx.writeAndFlush("登錄失敗");
@@ -47,7 +50,6 @@ public class FlowChartGeneral {
 
     public void queryFriend(ResponseResult login) {
         //查询成功
-        messageService = ActionFactoryBuild.getMessage(MessageService.class.getSimpleName());
         JSONObject jsonObject = JSON.parseObject(login.getData());
         ResponseResult friends = messageService.getFriends(String.valueOf(jsonObject.get("clientId")));
         if (!Objects.equals(friends.getCode(), "0000")) {
@@ -63,7 +65,7 @@ public class FlowChartGeneral {
         if (Objects.isNull(ctx)) {
             return;
         }
-        MessageDetail date = (MessageDetail)msg.getDate();
+        MessageDetail date = (MessageDetail) msg.getDate();
         MsgParam param = new MsgParam();
         param.setClientId(date.getClientId());
         param.setDetail(date.getDetail());

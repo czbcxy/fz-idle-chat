@@ -6,18 +6,24 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.util.concurrent.GlobalEventExecutor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Component
 public class ChatProviderHandler extends ChannelInboundHandlerAdapter {
 
     public static ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
-//    public static Map channelMap = new ConcurrentHashMap();
+
+    @Autowired
+    private FlowChartGeneral FlowChartGeneral;
+
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        ActionFactoryBuild.getFlowChart().refresh(ctx,msg);
+        FlowChartGeneral.refresh(ctx,msg);
     }
 
     /**

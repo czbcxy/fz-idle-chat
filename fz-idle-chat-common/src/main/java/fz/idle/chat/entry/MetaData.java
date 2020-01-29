@@ -5,10 +5,10 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class MetaData implements Serializable {
+public class MetaData<T> implements Serializable {
 
     private static final long serialVersionUID = 6297604864327678805L;
 
     public String type;
-    public Object date;
+    public T date;
 }

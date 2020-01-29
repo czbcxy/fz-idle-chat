@@ -12,6 +12,7 @@ import io.netty.handler.codec.serialization.ClassResolvers;
 import io.netty.handler.codec.serialization.ObjectDecoder;
 import io.netty.handler.codec.serialization.ObjectEncoder;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -21,8 +22,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class ChatProvider extends AbstractApplicationContent {
 
-    public ChatProvider() {
-    }
+
+    @Autowired
+    private ChatProviderHandler chatProviderHandler;
 
     public void init() {
         Init();
@@ -44,7 +46,7 @@ public class ChatProvider extends AbstractApplicationContent {
                 pip.addLast("encoder", new ObjectEncoder());
                 pip.addLast("decoder", new ObjectDecoder(Integer.MAX_VALUE, ClassResolvers.cacheDisabled(null)));
 
-                pip.addLast(new ChatProviderHandler());
+                pip.addLast(chatProviderHandler);
             }
         }).option(ChannelOption.SO_BACKLOG, 128).option(ChannelOption.SO_KEEPALIVE, true);
 
