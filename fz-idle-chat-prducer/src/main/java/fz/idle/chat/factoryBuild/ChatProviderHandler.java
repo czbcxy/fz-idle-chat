@@ -7,9 +7,13 @@ import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.util.concurrent.GlobalEventExecutor;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 public class ChatProviderHandler extends ChannelInboundHandlerAdapter {
 
     public static ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
+//    public static Map channelMap = new ConcurrentHashMap();
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {

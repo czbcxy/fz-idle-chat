@@ -5,16 +5,20 @@ import fz.idle.chat.enums.Types;
 import io.netty.channel.ChannelHandlerContext;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 public class FlowChartGeneral {
+    private ChannelHandlerContext ctx;
+
+    public void setCtx(ChannelHandlerContext ctx){
+        this.ctx = ctx;
+    }
+
     //循环聊天
-    public void doChat(ChannelHandlerContext ctx) {
-        for (int i = 0; i < 10; i++) {
-            MetaData metaData = new MetaData();
-            metaData.setType(Types.chat.name());
-            metaData.setDate("来子客户端的消息");
-            ctx.write(metaData);
-            ctx.flush();
-        }
+    public void doChat(MetaData metaData) {
+        metaData.setType(Types.chat.name());
+        metaData.setDate(UUID.randomUUID());
+        ctx.writeAndFlush(metaData);
     }
 }

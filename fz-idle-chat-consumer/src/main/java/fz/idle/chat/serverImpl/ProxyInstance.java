@@ -27,33 +27,22 @@ import java.util.concurrent.TimeUnit;
 public class ProxyInstance extends AbstractApplicationContent {
 
     //开始登录聊天
-    public Object login(MetaData metaData) {
-        EventLoopGroup workGroup = null;
+    public void login(MetaData metaData) {
         try {
             ChatConsumerHandler handler = new ChatConsumerHandler();
-            workGroup = new NioEventLoopGroup();
+            EventLoopGroup workGroup = new NioEventLoopGroup();
             ChannelFuture future = transmit(workGroup, handler);
             assert future != null;
             future.channel().writeAndFlush(metaData).sync();
             future.channel().closeFuture().sync();
-            while (true) {
-                String poll = ChatConsumerHandler.queue.poll(100L, TimeUnit.NANOSECONDS);
-                if (Objects.nonNull(poll)) {
-                    System.out.println(poll);
-                }
-            }
         } catch (Exception e) {
             log.error("consumer error {}", e.getCause().getMessage());
             e.printStackTrace();
-        } finally {
-            if (workGroup != null) {
-                workGroup.shutdownGracefully();
-            }
         }
-        return null;
     }
 
     private ChannelFuture transmit(EventLoopGroup workGroup, final ChatConsumerHandler handler) {
+        ChannelFuture future = null;
         try {
             Bootstrap bootstrap = new Bootstrap();
             bootstrap.group(workGroup).channel(NioSocketChannel.class).option(ChannelOption.TCP_NODELAY, true).handler(new ChannelInitializer<SocketChannel>() {
@@ -67,13 +56,12 @@ public class ProxyInstance extends AbstractApplicationContent {
                     pip.addLast(handler);
                 }
             });
-            ChannelFuture future = bootstrap.connect(host, port).sync();
-            return future;
+            future = bootstrap.connect(host, port).sync();
         } catch (Exception e) {
             log.error("consumer error {}", e.getCause().getMessage());
             e.printStackTrace();
         }
-        return null;
+        return future;
     }
 
 }

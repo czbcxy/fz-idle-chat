@@ -1,71 +1,73 @@
 package fz.idle.chat.factoryBuild;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import fz.idle.chat.entry.MessageDetail;
 import fz.idle.chat.entry.MetaData;
 import fz.idle.chat.enums.Types;
 import fz.idle.chat.msg.service.ClientService;
 import fz.idle.chat.msg.service.MessageService;
 import fz.idle.chat.msg.util.ResponseResult;
-import fz.idle.chat.msg.vo.ClientAllVo;
-import fz.idle.chat.msg.vo.FriendsVo;
 import fz.idle.chat.param.LogParam;
+import fz.idle.chat.param.MsgParam;
 import io.netty.channel.ChannelHandlerContext;
+import org.springframework.beans.BeanUtils;
+import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Objects;
 
 @Component
 public class FlowChartGeneral {
     private ChannelHandlerContext ctx;
-    private MetaData msg;
+    private static MessageService messageService = null;
 
     public void refresh(ChannelHandlerContext ctx, Object msg) {
         this.ctx = ctx;
-        this.msg = (MetaData) msg;
         String type = ((MetaData) msg).getType();
         if (Objects.equals(type, Types.login.name())) {
-            queryFriend(login());
+            queryFriend(login((MetaData)msg));
         } else {
-            doChat();
+            doChat((MetaData) msg);
         }
     }
 
-    public ResponseResult<ClientAllVo> login() {
+    public ResponseResult login(MetaData msg) {
         ClientService user = ActionFactoryBuild.getClient(ClientService.class.getSimpleName());
         LogParam param = (LogParam) msg.getDate();
-        ResponseResult<ClientAllVo> login = user.login(param);
+        ResponseResult login = user.login(param);
         //登录成功
         if (Objects.isNull(login) || !Objects.equals(login.getCode(), "0000")) {
-            ctx.write("登錄失敗");
-            ctx.flush();
+            ctx.writeAndFlush("登錄失敗");
             ctx.close();
         }
-        ctx.write("登錄成功");
-        ctx.flush();
+        ctx.writeAndFlush("返回给客户端登錄成功。。。");
         return login;
     }
 
-    public void queryFriend(ResponseResult<ClientAllVo> login) {
+    public void queryFriend(ResponseResult login) {
         //查询成功
-        MessageService messageService = ActionFactoryBuild.getMessage(MessageService.class.getSimpleName());
-        ResponseResult<List<FriendsVo>> friends = messageService.getFriends(login.getData().getClientId());
+        messageService = ActionFactoryBuild.getMessage(MessageService.class.getSimpleName());
+        JSONObject jsonObject = JSON.parseObject(login.getData());
+        ResponseResult friends = messageService.getFriends(String.valueOf(jsonObject.get("clientId")));
         if (!Objects.equals(friends.getCode(), "0000")) {
-            ctx.write("查詢好友失敗");
-            ctx.flush();
+            ctx.writeAndFlush("返回给客户端查詢好友失敗");
             ctx.close();
         }
         String jsonStr = JSON.toJSONString(friends);
-        ctx.write(jsonStr);
-        ctx.flush();
+        ctx.writeAndFlush("查询到的好友信息：" + jsonStr);
     }
 
     //循环聊天
-    public void doChat() {
-        //循环聊天
-        for (int i = 0; i < 10; i++) {
-            ctx.write("链接成功" + i);
-            ctx.flush();
+    public void doChat(MetaData msg) {
+        if (Objects.isNull(ctx)) {
+            return;
         }
+        Object date = msg.getDate();
+        System.out.println(date);
+        MsgParam param = new MsgParam();
+        BeanUtils.copyProperties(date,param);
+        messageService.send(param);
+        ctx.writeAndFlush("返回给客户消息。。。hello world。。。" + msg.toString());
     }
 }
