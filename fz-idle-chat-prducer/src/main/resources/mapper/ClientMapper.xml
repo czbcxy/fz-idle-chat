@@ -14,7 +14,7 @@
         WHERE account = '${param.account}'
           AND `password` = '${param.password}'
     </select>
-    <insert id="saveClient" parameterType="fz.idle.chat.param.ClientAllParam" >
+    <insert id="saveClient" parameterType="fz.idle.chat.param.ClientAllParam">
         INSERT INTO `message`.`client` (
           `client_id`,
           `account`,
@@ -31,4 +31,19 @@
             '${param.password}'
           )
     </insert>
+    <insert id="addFriend" parameterType="fz.idle.chat.param.AddFriendParam">
+        INSERT INTO `message`.`friend` (`client_id`, `friend_id`)
+        VALUES
+          ('${param.clientId}', '${param.friendId}')
+    </insert>
+    <select id="findFriend" parameterType="java.lang.String" resultType="fz.idle.chat.msg.vo.ClientAllVo">
+        SELECT
+          `client_id` clientId,
+          `account`,
+          `nick_name` nickName,
+          `gender`
+        FROM
+          `message`.`client`
+          WHERE account = '${param}'
+    </select>
 </mapper>

@@ -15,29 +15,61 @@
           `client` a,
           friend b
         WHERE b.`client_id` = '${param}'
+        and b.friend_id = a.client_id
     </select>
     <insert id="send" parameterType="fz.idle.chat.param.MsgParam">
         INSERT INTO `message`.`message` (
           `client_id`,
           `friend_id`,
-          `message_id`,
+          `message_id`
         )
         VALUES
           (
             '${param.clientId}',
             '${param.friendId}',
-            '${param.msgId}',
+            '${param.msgId}'
           )
     </insert>
     <insert id="sendMsg" parameterType="fz.idle.chat.param.MsgParam">
         INSERT INTO `message`.`detail` (
           `msg_id`,
-          `msg_detail`,
+          `msg_detail`
         )
         VALUES
           (
             '${param.msgId}',
-            '${param.detail}',
+            '${param.detail}'
           )
     </insert>
+    <resultMap id="msgs" type="java.util.HashMap">
+        <result column="client_id" property="clientId"/>
+        <result column="msg_detail" property="detail"/>
+    </resultMap>
+    <select id="findMsg" parameterType="fz.idle.chat.param.FindMsgParam" resultMap="msgs">
+        select c.client_id,
+            c.msg_detail
+        from
+            (SELECT
+              a.client_id,
+              b.msg_detail,
+              a.time
+            FROM
+              message a,
+              detail b
+            WHERE (
+                (
+                  a.client_id = '${param.clientId}'
+                  AND a.friend_id = '${param.friendId}'
+                )
+                OR (
+                  a.client_id = '${param.friendId}'
+                  AND a.friend_id = '${param.clientId}'
+                )
+              )
+              AND b.msg_id = a.message_id
+            ORDER BY a.`time` DESC
+            LIMIT ${param.currentPage}, ${param.pageSize}
+            ) c
+            order by c.time asc
+    </select>
 </mapper>
