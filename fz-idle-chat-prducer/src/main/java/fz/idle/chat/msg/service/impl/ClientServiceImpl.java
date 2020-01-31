@@ -18,6 +18,12 @@ public class ClientServiceImpl implements ClientService {
     @Autowired
     ClientMapper mapper;
 
+    /**
+     * 登录接口
+     *
+     * @param param
+     * @return
+     */
     @Override
     public ResponseResult login(LogParam param) {
         ResponseResult result = new ResponseResult();
@@ -30,6 +36,12 @@ public class ClientServiceImpl implements ClientService {
         return result;
     }
 
+    /**
+     * 注册接口
+     *
+     * @param param
+     * @return
+     */
     @Override
     public ResponseResult register(ClientAllParam param) {
         param.setClientId(UUID.randomUUID().toString());
@@ -45,6 +57,12 @@ public class ClientServiceImpl implements ClientService {
         return result;
     }
 
+    /**
+     * 添加好友接口
+     *
+     * @param param
+     * @return
+     */
     @Override
     public ResponseResult addFriend(AddFriendParam param) {
         ResponseResult result = new ResponseResult();
@@ -65,6 +83,14 @@ public class ClientServiceImpl implements ClientService {
         if (friend == null){
             result.setMessage("没有查询到好友!");
         }
+        return result;
+    }
+
+    @Override
+    public ResponseResult accept(String friendId) {
+        ResponseResult result = new ResponseResult();
+        mapper.accept(friendId);
+        result.setMessage("添加好友成功!");
         return result;
     }
 }

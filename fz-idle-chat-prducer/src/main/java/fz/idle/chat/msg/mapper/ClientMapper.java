@@ -18,4 +18,6 @@ public interface ClientMapper {
     void addFriend(@Param("param") AddFriendParam param);
 
     ClientAllVo findFriend(@Param("param") String account);
+
+    void accept(@Param("param") String friendId);
 }

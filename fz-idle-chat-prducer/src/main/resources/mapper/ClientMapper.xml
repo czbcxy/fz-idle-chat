@@ -46,4 +46,12 @@
           `message`.`client`
           WHERE account = '${param}'
     </select>
+
+    <update id="accept" parameterType="java.lang.String">
+        UPDATE
+          `message`.`friend`
+        SET
+          `status` = 1
+        WHERE `id` = '${param}'
+    </update>
 </mapper>

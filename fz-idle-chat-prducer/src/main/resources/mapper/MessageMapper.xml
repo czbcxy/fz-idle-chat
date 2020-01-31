@@ -16,6 +16,7 @@
           friend b
         WHERE b.`client_id` = '${param}'
         and b.friend_id = a.client_id
+        and status = 1
     </select>
     <insert id="send" parameterType="fz.idle.chat.param.MsgParam">
         INSERT INTO `message`.`message` (

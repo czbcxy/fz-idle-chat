@@ -42,4 +42,10 @@ public class ClientController {
     public ResponseResult findFriend(@ApiParam(value = "好友账号",required = true) @RequestParam String account){
         return clientService.findFriend(account);
     }
+
+    @ApiOperation("确认添加好友")
+    @PostMapping("accept")
+    public ResponseResult accept(@ApiParam(value = "friendId => 添加用户时返回的friendId",required = true)@RequestParam String friendId){
+        return clientService.accept(friendId);
+    }
 }
