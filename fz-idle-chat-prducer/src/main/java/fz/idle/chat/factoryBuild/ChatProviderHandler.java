@@ -3,27 +3,18 @@ package fz.idle.chat.factoryBuild;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.channel.group.ChannelGroup;
-import io.netty.channel.group.DefaultChannelGroup;
-import io.netty.util.concurrent.GlobalEventExecutor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-@Component
 public class ChatProviderHandler extends ChannelInboundHandlerAdapter {
 
-    public static ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
+    private FlowChartGeneral flowChartGeneral;
 
-    @Autowired
-    private FlowChartGeneral FlowChartGeneral;
-
+    public ChatProviderHandler() {
+        flowChartGeneral = new FlowChartGeneral();
+    }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        FlowChartGeneral.refresh(ctx,msg);
+        flowChartGeneral.refresh(ctx, msg);
     }
 
     /**
@@ -36,13 +27,13 @@ public class ChatProviderHandler extends ChannelInboundHandlerAdapter {
     public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
         Channel inComing = ctx.channel();//获得客户端通道
         //通知其他客户端有新人进入
-        for (Channel channel : channels) {
+        for (Channel channel : FriendContent.channels) {
             if (channel != inComing) {
                 channel.writeAndFlush("[欢迎: " + inComing.remoteAddress() + "] 进入聊天室！\n");
             }
         }
         //加入队列
-        channels.add(inComing);
+        FriendContent.channels.add(inComing);
     }
 
     /**
@@ -55,13 +46,12 @@ public class ChatProviderHandler extends ChannelInboundHandlerAdapter {
     public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
         Channel outComing = ctx.channel();//获得客户端通道
         //通知其他客户端有人离开
-        for (Channel channel : channels) {
+        for (Channel channel : FriendContent.channels) {
             if (channel != outComing) {
                 channel.writeAndFlush("[再见: ]" + outComing.remoteAddress() + " 离开聊天室！\n");
             }
         }
-
-        channels.remove(outComing);
+        FriendContent.channels.remove(outComing);
     }
 
     /**
@@ -73,7 +63,7 @@ public class ChatProviderHandler extends ChannelInboundHandlerAdapter {
      */
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, String msg) throws Exception {
         Channel inComing = channelHandlerContext.channel();
-        for (Channel channel : channels) {
+        for (Channel channel : FriendContent.channels) {
             if (channel != inComing) {
                 channel.writeAndFlush("[用户" + inComing.remoteAddress() + " 说：]" + msg + "\n");
             } else {
@@ -108,6 +98,7 @@ public class ChatProviderHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        System.out.println(cause.fillInStackTrace());
         Channel inComing = ctx.channel();
         System.out.println(inComing.remoteAddress() + "通讯异常！");
         ctx.close();

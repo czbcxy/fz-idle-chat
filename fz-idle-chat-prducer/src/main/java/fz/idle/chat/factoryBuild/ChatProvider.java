@@ -22,10 +22,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class ChatProvider extends AbstractApplicationContent {
 
-
-    @Autowired
-    private ChatProviderHandler chatProviderHandler;
-
     public void init() {
         Init();
         start();
@@ -46,7 +42,7 @@ public class ChatProvider extends AbstractApplicationContent {
                 pip.addLast("encoder", new ObjectEncoder());
                 pip.addLast("decoder", new ObjectDecoder(Integer.MAX_VALUE, ClassResolvers.cacheDisabled(null)));
 
-                pip.addLast(chatProviderHandler);
+                pip.addLast(new ChatProviderHandler());
             }
         }).option(ChannelOption.SO_BACKLOG, 128).option(ChannelOption.SO_KEEPALIVE, true);
 

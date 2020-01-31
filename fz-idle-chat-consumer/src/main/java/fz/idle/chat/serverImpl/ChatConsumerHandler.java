@@ -1,29 +1,29 @@
 package fz.idle.chat.serverImpl;
 
+import fz.idle.chat.ConsumerApp;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-@Component
+
 public class ChatConsumerHandler extends ChannelInboundHandlerAdapter {
-
-    @Autowired
-    private FutureResponse futureResponse;
-
-    @Autowired
-    private  FlowChartGeneral flowChartGeneral;
 
     //调用登录接口
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        futureResponse.setDate(msg);
+        String msage = String.valueOf(msg);
+        if (msage.startsWith("user:")) {
+            FlowChartGeneral.UserInfo = msage.replace("user:", "");
+            System.out.println(FlowChartGeneral.UserInfo);
+        } else {
+            System.out.println(msg);
+        }
     }
 
     //登录成功
     @Override
     public void channelActive(final ChannelHandlerContext ctx) {
-        flowChartGeneral.setCtx(ctx);
+        System.out.println("客户端" + ctx.channel().remoteAddress() + "登录成功");
+        ConsumerApp.ctx = ctx;
     }
 
     @Override

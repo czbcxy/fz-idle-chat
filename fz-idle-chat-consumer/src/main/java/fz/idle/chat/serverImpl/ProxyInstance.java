@@ -24,15 +24,12 @@ import java.util.concurrent.TimeUnit;
 
 
 @Slf4j
-@Component
 public class ProxyInstance extends AbstractApplicationContent {
-
-    @Autowired
-    ChatConsumerHandler chatConsumerHandler;
 
     //开始登录聊天
     public void login(MetaData metaData) {
         try {
+            Init();
             EventLoopGroup workGroup = new NioEventLoopGroup();
             ChannelFuture future = transmit(workGroup);
             assert future != null;
@@ -56,7 +53,7 @@ public class ProxyInstance extends AbstractApplicationContent {
                     pip.addLast(new LengthFieldPrepender(4));
                     pip.addLast("encoder", new ObjectEncoder());
                     pip.addLast("decoder", new ObjectDecoder(Integer.MAX_VALUE, ClassResolvers.cacheDisabled(this.getClass().getClassLoader())));
-                    pip.addLast(chatConsumerHandler);
+                    pip.addLast(new ChatConsumerHandler());
                 }
             });
             future = bootstrap.connect(host, port).sync();
