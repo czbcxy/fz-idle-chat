@@ -2,6 +2,7 @@ package fz.idle.chat.msg.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import fz.idle.chat.msg.mapper.MessageMapper;
+import fz.idle.chat.param.AddFriendParam;
 import fz.idle.chat.param.FindMsgParam;
 import fz.idle.chat.param.MsgParam;
 import fz.idle.chat.msg.service.MessageService;
@@ -34,6 +35,15 @@ public class MessageServiceImpl implements MessageService {
     public ResponseResult send(MsgParam param) {
         ResponseResult result = new ResponseResult();
         try {
+            AddFriendParam addFriendParam = new AddFriendParam();
+            addFriendParam.setClientId(param.getClientId());
+            addFriendParam.setFriendId(param.getFriendId());
+            int count = mapper.selectFriendById(addFriendParam);
+            if (count < 1){
+                result.setCode("9999");
+                result.setMessage("请先添加对方为好友!");
+                return result;
+            }
             String msgId = UUID.randomUUID().toString();
             param.setMsgId(msgId);
             mapper.sendMsg(param);

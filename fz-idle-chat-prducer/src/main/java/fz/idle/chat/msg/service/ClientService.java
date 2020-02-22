@@ -13,6 +13,8 @@ public interface ClientService {
 
     ResponseResult addFriend(AddFriendParam param);
 
+    ResponseResult deleteFriend(AddFriendParam param);
+
     ResponseResult findFriend(String account);
 
     ResponseResult accept(String friendId);

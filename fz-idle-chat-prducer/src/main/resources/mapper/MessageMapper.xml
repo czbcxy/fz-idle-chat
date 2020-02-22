@@ -73,4 +73,13 @@
             ) c
             order by c.time asc
     </select>
+    <select id="selectFriendById" parameterType="fz.idle.chat.param.AddFriendParam" resultType="java.lang.Integer">
+        SELECT
+          COUNT(1)
+        FROM
+          friend
+        WHERE client_id = '${param.clientId}'
+            and friend_id = '${param.friendId}'
+            and status = '1'
+    </select>
 </mapper>

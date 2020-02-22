@@ -1,5 +1,6 @@
 package fz.idle.chat.msg.mapper;
 
+import fz.idle.chat.param.AddFriendParam;
 import fz.idle.chat.param.FindMsgParam;
 import fz.idle.chat.param.MsgParam;
 import fz.idle.chat.msg.vo.FriendsVo;
@@ -19,4 +20,6 @@ public interface MessageMapper {
     void sendMsg(@Param("param") MsgParam param);
 
     List<HashMap<String, String>> findMsg(@Param("param") FindMsgParam param);
+
+    int selectFriendById(@Param("param") AddFriendParam friendId);
 }

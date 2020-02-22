@@ -33,13 +33,19 @@ public class ClientController {
 
     @ApiOperation("添加好友")
     @PostMapping("addFriend")
-    public ResponseResult addFriend(@RequestBody AddFriendParam param){
+    public ResponseResult addFriend(@RequestBody AddFriendParam param) {
         return clientService.addFriend(param);
+    }
+
+    @ApiOperation("删除好友接口")
+    @PostMapping("deleteFriend")
+    public ResponseResult deleteFriend(@RequestBody AddFriendParam param) {
+        return clientService.deleteFriend(param);
     }
 
     @ApiOperation("查询好友")
     @PostMapping("findFriend")
-    public ResponseResult findFriend(@ApiParam(value = "好友账号",required = true) @RequestParam String account){
+    public ResponseResult findFriend(@ApiParam(value = "好友账号", required = true) @RequestParam String account) {
         return clientService.findFriend(account);
     }
 

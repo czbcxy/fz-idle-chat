@@ -14,10 +14,21 @@ spring:
 
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 #  type-aliases-package: fz.idle.chat.Do
 #showSql
 logging:
   level:
-    com:
-      example:
-        mapper : debug
+    fz.idle.chat.msg.mapper: debug
+#    com:
+#      example:
+#        mapper : debug
+
+#mybatis:
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+#logging:
+#  level:
+#    com.lucifer.springboot.cache.mapper: debug

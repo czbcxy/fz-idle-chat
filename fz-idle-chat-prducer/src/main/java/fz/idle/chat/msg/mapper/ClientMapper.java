@@ -15,9 +15,19 @@ public interface ClientMapper {
 
     void saveClient(@Param("param") ClientAllParam param);
 
-    void addFriend(@Param("param") AddFriendParam param);
+    Integer addFriend(@Param("param") AddFriendParam param);
+
+    ClientAllVo clientByCid(@Param("param") String clientId);
 
     ClientAllVo findFriend(@Param("param") String account);
 
     void accept(@Param("param") String friendId);
+
+    void delete(@Param("param") AddFriendParam param);
+
+    void delete1(@Param("param") AddFriendParam param);
+
+    void deleteMsg(@Param("param") AddFriendParam param);
+
+    void deleteMsg1(@Param("param") AddFriendParam param);
 }

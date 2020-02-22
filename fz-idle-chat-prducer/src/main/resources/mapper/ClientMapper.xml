@@ -14,6 +14,16 @@
         WHERE account = '${param.account}'
           AND `password` = '${param.password}'
     </select>
+    <select id="clientByCid" parameterType="java.lang.String" resultType="fz.idle.chat.msg.vo.ClientAllVo">
+        SELECT
+          client_id clientId,
+          account,
+          nick_name nickName,
+          gender
+        FROM
+          `client`
+        WHERE client_id = '${param}'
+    </select>
     <insert id="saveClient" parameterType="fz.idle.chat.param.ClientAllParam">
         INSERT INTO `message`.`client` (
           `client_id`,
@@ -35,6 +45,9 @@
         INSERT INTO `message`.`friend` (`client_id`, `friend_id`)
         VALUES
           ('${param.clientId}', '${param.friendId}')
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+            SELECT @@IDENTITY
+        </selectKey>
     </insert>
     <select id="findFriend" parameterType="java.lang.String" resultType="fz.idle.chat.msg.vo.ClientAllVo">
         SELECT
@@ -52,6 +65,40 @@
           `message`.`friend`
         SET
           `status` = 1
-        WHERE `id` = '${param}'
+        WHERE `friend_id` = '${param}'
     </update>
+    <delete id="delete" parameterType="fz.idle.chat.param.AddFriendParam">
+       DELETE
+        FROM
+          `message`.`friend`
+        WHERE client_id = '${param.clientId}'
+          AND friend_id = '${param.friendId}'
+    </delete>
+    <delete id="delete1" parameterType="fz.idle.chat.param.AddFriendParam">
+       DELETE
+        FROM
+          `message`.`friend`
+        WHERE client_id = '${param.friendId}'
+          AND friend_id = '${param.clientId}'
+    </delete>
+    <delete id="deleteMsg" parameterType="fz.idle.chat.param.AddFriendParam">
+       DELETE
+        a,b
+      FROM
+        detail a,
+        message b
+      WHERE b.message_id = a.msg_id
+        AND b.client_id = '${param.clientId}'
+        AND b.friend_id = '${param.friendId}'
+    </delete>
+    <delete id="deleteMsg1" parameterType="fz.idle.chat.param.AddFriendParam">
+       DELETE
+        a,b
+      FROM
+        detail a,
+        message b
+      WHERE b.message_id = a.msg_id
+        AND b.client_id = '${param.friendId}'
+        AND b.friend_id = '${param.clientId}'
+    </delete>
 </mapper>
